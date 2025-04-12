@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Tools</title>
+  <link rel="icon" href="https://i.ibb.co/3yhQtRqZ/workflow-tools-favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #98cc4e;
+            --primary-light: rgba(152, 204, 78, 0.1);
+            --secondary: #fb0088;
+            --light: #FFFFFF;
+            --dark: #292929;
+            --bg: #F7F7F7;
+            --border: #e0e0e0;
+            --highlight: #ffd6e7;
+            --text: #444;
+            --text-light: #777;
+            
+            /* Dark mode variables */
+            --dm-bg: #1a1a1a;
+            --dm-light: #2d2d2d;
+            --dm-dark: #e0e0e0;
+            --dm-text: #f0f0f0;
+            --dm-text-light: #b0b0b0;
+            --dm-border: #444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: var(--dm-bg);
+            color: var(--dm-text);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .logo {
+            margin-bottom: 1rem;
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+        }
+
+        .tagline {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        body.dark-mode .tagline {
+            color: var(--dm-text-light);
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid var(--border);
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding-left: 3rem;
+            background-color: var(--light);
+            color: var(--text);
+        }
+
+        body.dark-mode .search-bar {
+            background-color: var(--dm-light);
+            border-color: var(--dm-border);
+            color: var(--dm-text);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        body.dark-mode .search-icon {
+            color: var(--dm-text-light);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: var(--light);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        body.dark-mode .tool-card {
+            background: var(--dm-light);
+            border-color: var(--dm-border);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .tool-card-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .tool-card-header {
+            background: var(--primary-light);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        body.dark-mode .tool-card-header {
+            border-bottom-color: var(--dm-border);
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .tool-card-body {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tool-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        body.dark-mode .tool-title {
+            color: var(--dm-dark);
+        }
+
+        .tool-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .tool-description {
+            color: var(--dm-text-light);
+        }
+
+        .tool-link {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 3;
+        }
+
+        .tool-link:hover {
+            background: var(--secondary);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .no-results {
+            color: var(--dm-text-light);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        body.dark-mode footer {
+            color: var(--dm-text-light);
+            border-top-color: var(--dm-border);
+        }
+
+        /* Dark mode toggle */
+        .theme-switcher {
+            position: absolute;
+            top: 0;
+            right: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .theme-icon {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        body.dark-mode .theme-icon {
+            color: var(--dm-text-light);
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .theme-switcher {
+                position: static;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>Workflow Tools</h1>
+            </div>
+   
+            
+            <div class="theme-switcher">
+                <i class="fas fa-sun theme-icon"></i>
+                <label class="switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider"></span>
+                </label>
+                <i class="fas fa-moon theme-icon"></i>
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-bar" placeholder="Search tools..." id="searchInput">
+            </div>
+        </header>
+        
+        <div class="tools-grid" id="toolsContainer">
+            <!-- Data Unit Converter -->
+            <div class="tool-card" data-tool-name="data unit converter">
+                <a href="https://zongers.github.io/duc/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3 class="tool-title">Data Unit Converter</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Convert between different data units (KB, MB, GB, TB) quickly and easily.</p>
+                    <a href="https://zongers.github.io/duc/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Excel Copier -->
+            <div class="tool-card" data-tool-name="excel copier">
+                <a href="https://zongers.github.io/ec/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <h3 class="tool-title">Excel Copier</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Copy Excel data with formatting preserved for easy transfer between applications.</p>
+                    <a href="https://zongers.github.io/ec/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Open Date & Revenue Calculator -->
+            <div class="tool-card" data-tool-name="open date revenue calculator">
+                <a href="https://zongers.github.io/odrc/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3 class="tool-title">Open Date & Revenue Calculator</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate revenue based on open dates and other business metrics.</p>
+                    <a href="https://zongers.github.io/odrc/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Transferred Follow-up Identification -->
+            <div class="tool-card" data-tool-name="transferred follow-up identification">
+                <a href="https://zongers.github.io/tfi/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3 class="tool-title">Transferred Follow-up Identification</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Identify customer numbers that have been transferred between teams.</p>
+                    <a href="https://zongers.github.io/tfi/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Package Date Calculator -->
+            <div class="tool-card" data-tool-name="package date calculator">
+                <a href="https://zongers.github.io/pdc/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="tool-title">Package Date Calculator</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Calculate package dates and durations for shipping and logistics.</p>
+                    <a href="https://zongers.github.io/pdc/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Duplicate Follow-up Remover -->
+            <div class="tool-card" data-tool-name="duplicate follow-up remover">
+                <a href="https://zongers.github.io/dfr/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3 class="tool-title">Duplicate Follow-up Remover</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Remove duplicate customer entries while keeping the most recent activation.</p>
+                    <a href="https://zongers.github.io/dfr/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Excel Date Formatter -->
+            <div class="tool-card" data-tool-name="excel date formatter">
+                <a href="https://zongers.github.io/edf/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h3 class="tool-title">Excel Date Formatter</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Format and standardize dates from Excel files quickly and efficiently.</p>
+                    <a href="https://zongers.github.io/edf/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Temp Input Box -->
+            <div class="tool-card" data-tool-name="temp input box">
+                <a href="https://zongers.github.io/tib/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h3 class="tool-title">Temp Input Box</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">A temporary input space for quick notes and data manipulation.</p>
+                    <a href="https://zongers.github.io/tib/" class="tool-link" target="_blank">Open Tool</a>
+                </div>
+            </div>
+            
+            <!-- Play Game -->
+            <div class="tool-card" data-tool-name="play game">
+                <a href="https://zongers.github.io/gp/" class="tool-card-link" target="_blank"></a>
+                <div class="tool-card-header">
+                    <div class="tool-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="tool-title">Play Game</h3>
+                </div>
+                <div class="tool-card-body">
+                    <p class="tool-description">Take a break with our fun bubble shooter game!</p>
+                    <a href="https://zongers.github.io/gp/" class="tool-link" target="_blank">Play Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2025-26 Workflow Tools | All tools run in your browser (no data stored)
+    </footer>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const toolsContainer = document.getElementById('toolsContainer');
+        const toolCards = document.querySelectorAll('.tool-card');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let hasResults = false;
+            
+            toolCards.forEach(card => {
+                const toolName = card.getAttribute('data-tool-name');
+                if (toolName.includes(searchTerm)) {
+                    card.style.display = '';
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Show no results message if needed
+            const noResults = document.querySelector('.no-results');
+            if (!hasResults) {
+                if (!noResults) {
+                    const noResultsDiv = document.createElement('div');
+                    noResultsDiv.className = 'no-results';
+                    noResultsDiv.innerHTML = '<p>No tools found matching your search. Try different keywords.</p>';
+                    toolsContainer.appendChild(noResultsDiv);
+                }
+            } else if (noResults) {
+                noResults.remove();
+            }
+        });
+        
+        // Focus search bar on '/' key press
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '/' && e.target !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+        });
+
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.checked = true;
+        }
+        
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+</body>
+</html>
