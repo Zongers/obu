@@ -7,7 +7,7 @@
     <title>OBU Tools</title>
     <style>
         :root {
-            --primary-color: #98b505;
+            --primary-color: #97c223;
             --primary-light: #d05ce3; /* Not used, but keeping for consistency */
             --primary-dark: #6a0080; /* Not used, but keeping for consistency */
             --text-light: #f5f5f5;
@@ -473,6 +473,13 @@
                         <h3 class="tool-card-title">Excel Copier</h3>
                         <p class="tool-card-desc">Copy and transform Excel data efficiently</p>
                     </div>
+                    <div class="tool-card" onclick="openTool('https://zongers.github.io/ecn/')">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <h3 class="tool-card-title">Excel Copier++</h3>
+                        <p class="tool-card-desc">Enhanced Excel data copying with more features</p>
+                    </div>
                     <div class="tool-card" onclick="openTool('https://zongers.github.io/duc/')">
                         <div class="tool-card-icon">
                             <i class="fas fa-exchange-alt"></i>
@@ -480,12 +487,19 @@
                         <h3 class="tool-card-title">Data Unit Convertor</h3>
                         <p class="tool-card-desc">Convert between different data units</p>
                     </div>
-                    <div class="tool-card" onclick="openTool('https://zongers.github.io/odrc/')">
+                    <div class="tool-card" onclick="openTool('https://zongers.github.io/odrcn/')">
                         <div class="tool-card-icon">
                             <i class="fas fa-calculator"></i>
                         </div>
                         <h3 class="tool-card-title">Open Date Calculator</h3>
                         <p class="tool-card-desc">Calculate dates and time intervals</p>
+                    </div>
+                    <div class="tool-card" onclick="openTool('https://zongers.github.io/aoc/')">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="tool-card-title">All Open Date Calculator</h3>
+                        <p class="tool-card-desc">Calculate all open dates</p>
                     </div>
                     <div class="tool-card" onclick="openTool('https://zongers.github.io/tfi/')">
                         <div class="tool-card-icon">
@@ -536,6 +550,20 @@
                         <h3 class="tool-card-title">Expiry to Excel</h3>
                         <p class="tool-card-desc">Add expiry dates to Excel data</p>
                     </div>
+<div class="tool-card" onclick="openTool('https://zongers.github.io/clipshare/')">
+    <div class="tool-card-icon">
+        <i class="fas fa-paperclip"></i>
+    </div>
+    <h3 class="tool-card-title">ClipShare</h3>
+    <p class="tool-card-desc">Secure clipboard sharing between devices</p>
+</div>
+                    <div class="tool-card" onclick="openTool('https://zongers.github.io/ccv/')">
+                        <div class="tool-card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="tool-card-title">CC Data Verification</h3>
+                        <p class="tool-card-desc">Identify missing data in CC records</p>
+                    </div>
                 </div>
                 <div class="settings-container" id="open-new-tab-setting-box"> <label class="settings-label">
                         <input type="checkbox" id="open-new-tab">
@@ -568,15 +596,15 @@
             mbbDate.setDate(today.getDate() - 31);
             document.getElementById('mbb-date').innerHTML = `<b>MBB Date:</b> ${formatDate(mbbDate)}`;
 
-            // Prepaid Date: 20 days before
+            // 25 Days Prepaid Date: 25 days before
             const prepaidDate = new Date(today);
-            prepaidDate.setDate(today.getDate() - 20);
-            document.getElementById('prepaid-date').innerHTML = `<b>Prepaid Date:</b> ${formatDate(prepaidDate)}`;
+            prepaidDate.setDate(today.getDate() - 25);
+            document.getElementById('prepaid-date').innerHTML = `<b>25 Days Prepaid Open:</b> ${formatDate(prepaidDate)}`;
 
-            // 15th day Hunting: 10 days before
+            // 15th day Hunting: 5 days before
             const huntingDate = new Date(today);
-            huntingDate.setDate(today.getDate() - 10);
-            document.getElementById('hunting-date').innerHTML = `<b>11th day Hunting:</b> ${formatDate(huntingDate)}`;
+            huntingDate.setDate(today.getDate() - 20);
+            document.getElementById('hunting-date').innerHTML = `<b>20 Days Open:</b> ${formatDate(huntingDate)}`;
         }
 
         // Pakistan Time Display
