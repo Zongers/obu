@@ -598,13 +598,13 @@
 
             // 25 Days Prepaid Date: 25 days before
             const prepaidDate = new Date(today);
-            prepaidDate.setDate(today.getDate() - 25);
-            document.getElementById('prepaid-date').innerHTML = `<b>25 Days Prepaid Open:</b> ${formatDate(prepaidDate)}`;
+            prepaidDate.setDate(today.getDate() - 20);
+            document.getElementById('prepaid-date').innerHTML = `<b>20 Days Prepaid Open:</b> ${formatDate(prepaidDate)}`;
 
             // 15th day Hunting: 5 days before
             const huntingDate = new Date(today);
-            huntingDate.setDate(today.getDate() - 20);
-            document.getElementById('hunting-date').innerHTML = `<b>20 Days Open:</b> ${formatDate(huntingDate)}`;
+            huntingDate.setDate(today.getDate() - 10);
+            document.getElementById('hunting-date').innerHTML = `<b>11th day Hunting:</b> ${formatDate(huntingDate)}`;
         }
 
         // Pakistan Time Display
